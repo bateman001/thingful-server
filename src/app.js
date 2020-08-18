@@ -17,7 +17,9 @@ app.use(helmet())
 
 app.use('/api/things', thingsRouter)
 app.use('/api/reviews', reviewsRouter)
-
+app.get('/', (req, res) =>{
+  res.send('hello world')
+})
 app.use(function errorHandler(error, req, res, next) {
   let response
   if (NODE_ENV === 'production') {

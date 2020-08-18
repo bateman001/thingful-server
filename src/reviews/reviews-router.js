@@ -1,15 +1,15 @@
 const express = require('express')
 const path = require('path')
 const ReviewsService = require('./reviews-service')
-
 const reviewsRouter = express.Router()
 const jsonBodyParser = express.json()
+const { requireAuth } = require('../middleware/thingful-auth')
 
 reviewsRouter
   .route('/')
-  .post(jsonBodyParser, (req, res, next) => {
-    const { thing_id, rating, text, user_id } = req.body
-    const newReview = { thing_id, rating, text, user_id }
+  .post(requireAuth, jsonBodyParser, (req, res, next) => {
+    const { thing_id, rating, text } = req.body
+    const newReview = { thing_id, rating, text}
 
     for (const [key, value] of Object.entries(newReview))
       if (value == null)
@@ -17,6 +17,8 @@ reviewsRouter
           error: `Missing '${key}' in request body`
         })
 
+    newCommnet.user_id = req.user.id
+    
     ReviewsService.insertReview(
       req.app.get('db'),
       newReview
