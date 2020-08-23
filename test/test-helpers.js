@@ -179,7 +179,7 @@ function makeExpectedThingReviews(users, thingId, reviews) {
 
   return expectedReviews.map(review => {
     const reviewUser = users.find(user => user.id === review.user_id)
-    return {
+    const userObject = {
       id: review.id,
       text: review.text,
       rating: review.rating,
@@ -190,8 +190,11 @@ function makeExpectedThingReviews(users, thingId, reviews) {
         full_name: reviewUser.full_name,
         nickname: reviewUser.nickname,
         date_created: reviewUser.date_created,
-      }
+
     }
+  }
+
+    return userObject
   })
 }
 
