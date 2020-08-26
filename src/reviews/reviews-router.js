@@ -3,7 +3,7 @@ const path = require('path')
 const ReviewsService = require('./reviews-service')
 const reviewsRouter = express.Router()
 const jsonBodyParser = express.json()
-const { requireAuth } = require('../middleware/thingful-auth')
+const { requireAuth } = require('../middleware/jwt-auth')
 
 reviewsRouter
   .route('/')
@@ -17,7 +17,7 @@ reviewsRouter
           error: `Missing '${key}' in request body`
         })
 
-    newCommnet.user_id = req.user.id
+    newReview.user_id = req.user.id
     
     ReviewsService.insertReview(
       req.app.get('db'),
